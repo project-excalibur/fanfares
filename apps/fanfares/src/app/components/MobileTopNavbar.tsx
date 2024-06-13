@@ -64,7 +64,7 @@ function MobileTopNavbar(props: MobileTopNavbarProps) {
         <button onClick={handleLogin}>
           <FontAwesomeIcon
             icon={faKey}
-            className="text-white w-6 h-6 ml-auto"
+            className="text-white w-7 h-7 ml-auto"
           />
         </button>
       )} */}
