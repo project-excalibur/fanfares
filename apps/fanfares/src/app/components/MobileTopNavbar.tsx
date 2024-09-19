@@ -8,6 +8,8 @@ import Logo from "../assets/logo.svg"
 
 import { useAccountProfile } from "../controllers/state/account-slice"
 
+import DropdownMenuMobile from "./DropdownMenuMobile"
+
 export interface MobileTopNavbarProps {
   isLoggedIn?: boolean
   pubkey?: string
@@ -19,7 +21,8 @@ function MobileTopNavbar(props: MobileTopNavbarProps) {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   const handleLogin = () => {
-    document.dispatchEvent(new CustomEvent("nlLaunch", { detail: "welcome" }))
+    // document.dispatchEvent(new CustomEvent("nlLaunch"))
+    document.dispatchEvent(new CustomEvent("promptLogin"))
   }
 
   if (typeof window !== "undefined") {
@@ -33,9 +36,9 @@ function MobileTopNavbar(props: MobileTopNavbarProps) {
     })
   }
   return (
-    <div className="grid-cols-3 grid  items-center justify-between md:hidden py-3 px-4 w-full drop-shadow-md border-b-2 border-buttonAccentHover backdrop-blur-md">
-      <Link href="/" className="w-7">
-        <FontAwesomeIcon icon={faHomeAlt} className="text-white" />
+    <div className="flex items-center justify-between md:hidden py-3 px-4 w-full drop-shadow-md border-b-2 border-buttonAccentHover backdrop-blur-md">
+      <Link href="/" className="w-7 h-7">
+        <FontAwesomeIcon icon={faHomeAlt} className="text-white w-7" />
       </Link>
       <div className="mx-auto flex gap-2 items-center">
         <Image
@@ -47,6 +50,7 @@ function MobileTopNavbar(props: MobileTopNavbarProps) {
         />
         <p className="text-3xl font-gloock ">FanFares</p>
       </div>
+      <DropdownMenuMobile />
       {accountProfile && isLoggedIn ? (
         <Link className="ml-auto" href={`/p/${accountProfile.pubkey}`}>
           <Image
@@ -58,12 +62,7 @@ function MobileTopNavbar(props: MobileTopNavbarProps) {
           />{" "}
         </Link>
       ) : (
-        <button onClick={handleLogin}>
-          <FontAwesomeIcon
-            icon={faKey}
-            className="text-white w-6 h-6 ml-auto"
-          />
-        </button>
+        <button onClick={handleLogin}>Sign In</button>
       )}
     </div>
   )

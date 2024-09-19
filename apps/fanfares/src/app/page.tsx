@@ -5,6 +5,7 @@ import Link from "next/link"
 import HomePageAccordion from "./components/HomePageAccordion"
 import Image from "next/image"
 import Logo from "./assets/logo.svg"
+import { useEffect } from "react"
 
 export default function Home() {
   // ------------------- STATES -------------------------
@@ -19,7 +20,7 @@ export default function Home() {
 
   //TODO make this the Discover page
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 pb-64 md:pb-0">
       <div className="flex items-center justify-center md:justify-start gap-4">
         <Link href="/" className="flex flex-col items-center md:hidden">
           <Image
@@ -41,12 +42,12 @@ export default function Home() {
         <Link
           href="/upload"
           className={`px-1 flex items-center justify-center p-2 border-2 border-buttonAccentHover rounded-full bg-buttonAccent hover:bg-buttonAccentHover transition-all duration-300 ease-in-out transform text-sm hover:bg-skin-fill gap-2 font-gloock`}>
-          <span className="">ZapWall your podcast</span>
+          <span className="">Upload your podcast</span>
         </Link>
         <Link
           href="/discover"
           className={`px-1 flex items-center justify-center p-2 border-2 border-buttonAccentHover rounded-full bg-buttonAccent hover:bg-buttonAccentHover transition-all duration-300 ease-in-out transform text-sm hover:bg-skin-fill gap-2 font-gloock`}>
-          <span className="">Purchase ZapWalled podcasts</span>
+          <span className="">Purchase podcasts</span>
         </Link>
       </div>
 

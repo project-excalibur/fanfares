@@ -17,6 +17,7 @@ import {
   usePodcastsUnlocked,
 } from "../controllers/state/podcast-slice"
 import { toast } from "react-toastify"
+import { detectIOSFirmware } from "./MobileDetection"
 
 export interface AppControllerProps {
   children: React.ReactNode
@@ -44,13 +45,24 @@ export function AppController(props: AppControllerProps) {
 
   // absolutely bizarre hack needed because nostr-login references 'document' and that breaks server-side rendering
   useEffect(() => {
-    import("nostr-login")
-      .then(async ({ init }) => {
-        init({
-          bunkers: "login.fanfares.io",
+    // Ensure code runs only in client-side environment where 'window' is defined
+    if (typeof window !== "undefined") {
+      const nsecbunker = window.localStorage.getItem("nsecbunker")
+      // detect iOS and disable nsec.app login method if < iOS 17
+      const ios = detectIOSFirmware()
+      const nsecAppMethod: string[] =
+        nsecbunker === "true" || !ios ? ["connect"] : []
+
+      import("nostr-login")
+        .then(async ({ init }) => {
+          init({
+            bunkers: "nsec.app,login.fanfares.io",
+            methods: ["readOnly", "extension", "local", ...nsecAppMethod],
+            noBanner: true,
+          })
         })
-      })
-      .catch(error => console.log("Failed to load nostr-login", error))
+        .catch(error => console.log("Failed to load nostr-login", error))
+    }
   }, [])
 
   useEffect(() => {
@@ -67,7 +79,7 @@ export function AppController(props: AppControllerProps) {
           saveProfileToStore() // get pubkey with window.nostr and show user profile
         } else {
           // TODO - clear nostr store
-          // onLogout()  // clear local user data, hide profile info
+          // onLogout ()  // clear local user data, hide profile info
         }
       })
     }
