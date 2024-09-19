@@ -35,16 +35,10 @@ function MobileTopNavbar(props: MobileTopNavbarProps) {
     })
   }
   return (
-<<<<<<< HEAD
-    <div className="grid-cols-3 grid  items-center justify-between md:hidden py-3 px-4 w-full drop-shadow-md border-b-2 border-buttonAccentHover backdrop-blur-md">
-      {/* <Link href="/" className="w-7">
-=======
     <div className="flex items-center justify-between md:hidden py-3 px-4 w-full drop-shadow-md border-b-2 border-buttonAccentHover backdrop-blur-md">
-      <Link href="/" className="w-7 mr-auto">
->>>>>>> aaf946b (center top logo)
-        <FontAwesomeIcon icon={faHomeAlt} className="text-white" />
-      </Link> */}
-      <DropdownMenuMobile />
+      <Link href="/" className="w-7 h-7">
+        <FontAwesomeIcon icon={faHomeAlt} className="text-white w-7" />
+      </Link>
       <div className="mx-auto flex gap-2 items-center">
         <Image
           className=""
@@ -55,6 +49,7 @@ function MobileTopNavbar(props: MobileTopNavbarProps) {
         />
         <p className="text-3xl font-gloock ">FanFares</p>
       </div>
+      <DropdownMenuMobile />
       {/* {accountProfile && isLoggedIn ? (
         <Link className="ml-auto" href={`/p/${accountProfile.pubkey}`}>
           <Image
