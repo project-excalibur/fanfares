@@ -58,7 +58,7 @@ export function AppController(props: AppControllerProps) {
           init({
             bunkers: "nsec.app,login.fanfares.io",
             methods: ["readOnly", "extension", "local", ...nsecAppMethod],
-            noBanner: true,
+            noBanner: false,
           })
         })
         .catch(error => console.log("Failed to load nostr-login", error))
