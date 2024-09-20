@@ -46,11 +46,13 @@ export function AppController(props: AppControllerProps) {
   // absolutely bizarre hack needed because nostr-login references 'document' and that breaks server-side rendering
   useEffect(() => {
     // WEBLN
-    // requestProvider()
-    //   .then(accountSetWebln)
-    //   .catch(e => {
-    //     toast.error("Please download Alby or ZBD to use this app.")
-    //   })
+    requestProvider()
+      .then(accountSetWebln)
+      .catch(e => {
+        toast.error(
+          "Please use Alby Extension or click the Nostr Login banner at the top right to sign in."
+        )
+      })
     // Ensure code runs only in client-side environment where 'window' is defined
     if (typeof window !== "undefined") {
       const nsecbunker = window.localStorage.getItem("nsecbunker")
