@@ -8,6 +8,7 @@ import { usePrimalActions } from "../controllers/state/primal-slice"
 import {
   useAccountActions,
   useAccountNostr,
+  useAccountProfile,
 } from "../controllers/state/account-slice"
 import { useNostr } from "../controllers/state/nostr-slice"
 import {
@@ -17,7 +18,11 @@ import {
   usePodcastsUnlocked,
 } from "../controllers/state/podcast-slice"
 import { toast } from "react-toastify"
-import { detectIOSFirmware } from "./MobileDetection"
+
+import { NostrAccount } from "../controllers/state/account-slice"
+import { NostrProfile, eventToNostrProfile } from "utils/nostrProfile"
+
+import { launch as launchNostrLoginDialog } from "nostr-login"
 
 export interface AppControllerProps {
   children: React.ReactNode
@@ -37,40 +42,25 @@ export function AppController(props: AppControllerProps) {
     useAccountActions()
   const { nostrDisconnect, nostrPool, nostrRelays } = useNostr()
   const { podcastFetch } = usePodcastActions()
+  const [showLoginModal, setShowLoginModal] = useState(false)
+  const [hasProfile, setHasProfile] = useState(false)
 
   // const podcastEpisodes = usePodcastEpisodes();
   // const podcastFetching = usePodcastFetching();
   // const podcastUnlocked = usePodcastsUnlocked();
-  // const accountNostr = useAccountNostr();
+  const accountNostr = useAccountNostr()
 
   // absolutely bizarre hack needed because nostr-login references 'document' and that breaks server-side rendering
-  useEffect(() => {
-    // WEBLN
-    requestProvider()
-      .then(accountSetWebln)
-      .catch(e => {
-        toast.error(
-          "Please use Alby Extension or click the Nostr Login banner at the top right to sign in."
-        )
-      })
-    // Ensure code runs only in client-side environment where 'window' is defined
-    if (typeof window !== "undefined") {
-      const nsecbunker = window.localStorage.getItem("nsecbunker")
-      // detect iOS and disable nsec.app login method if < iOS 17
-      const ios = detectIOSFirmware()
-      const nsecAppMethod: string[] =
-        nsecbunker === "true" || !ios ? ["connect"] : []
 
-      import("nostr-login")
-        .then(async ({ init }) => {
-          init({
-            bunkers: "nsec.app,login.fanfares.io",
-            methods: ["readOnly", "extension", "local", ...nsecAppMethod],
-            noBanner: false,
-          })
+  useEffect(() => {
+    import("nostr-login")
+      .then(async ({ init }) => {
+        init({
+          bunkers: "login.fanfares.io",
+          noBanner: true,
         })
-        .catch(error => console.log("Failed to load nostr-login", error))
-    }
+      })
+      .catch(error => console.log("Failed to load nostr-login", error))
   }, [])
 
   useEffect(() => {
@@ -84,15 +74,16 @@ export function AppController(props: AppControllerProps) {
           // TODO make this in nostrSlice
           // Nostr Account
           console.log("save profile to store")
-          saveProfileToStore() // get pubkey with window.nostr and show user profile
+          saveProfileToStore()
+          // get pubkey with window.nostr and show user profile
         } else {
           // TODO - clear nostr store
-          // onLogout ()  // clear local user data, hide profile info
+          // onLogout()  // clear local user data, hide profile info
         }
       })
     }
 
-    // PRIMAL .
+    // PRIMAL
     primalConnect()
 
     // PODCASTS

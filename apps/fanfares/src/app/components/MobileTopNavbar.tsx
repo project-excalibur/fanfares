@@ -36,7 +36,7 @@ function MobileTopNavbar(props: MobileTopNavbarProps) {
     })
   }
   return (
-    <div className="grid-cols-3 grid  items-center justify-between md:hidden py-3 px-4 w-full drop-shadow-md border-b-2 border-buttonAccentHover backdrop-blur-md">
+    <div className="flex items-center justify-between md:hidden py-3 px-4 w-full drop-shadow-md border-b-2 border-buttonAccentHover backdrop-blur-md">
       {/* <Link href="/" className="w-7">
         <FontAwesomeIcon icon={faHomeAlt} className="text-white" />
       </Link> */}

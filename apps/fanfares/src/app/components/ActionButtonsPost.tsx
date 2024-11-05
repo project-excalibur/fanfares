@@ -8,6 +8,8 @@ import Upload from "../(routes)/upload/page"
 import { PostFormOnModal } from "./PostFormOnModal"
 import { ModalPosting } from "./ModalPosting"
 import UploadOnModal from "./UploadOnModal"
+import { useNostr } from "../controllers/state/nostr-slice"
+import { useAccountNostr } from "../controllers/state/account-slice"
 
 export function ActionButtonsPost() {
   // Refactor this section to use Enums?
@@ -15,6 +17,7 @@ export function ActionButtonsPost() {
   const [gatedNoteModal, setGatedNoteModal] = useState(false)
   const [gatedPodModal, setGatedPodModal] = useState(false)
   const [genericNoteModal, setGenericNoteModal] = useState(false)
+  const nostrProfile = useAccountNostr()
 
   const setModalOff = () => {
     setNoteModal(false)
@@ -150,10 +153,19 @@ export function ActionButtonsPost() {
         onClick={() => setGatedNoteModal(!gatedNoteModal)}
         label="Paid Post"
       /> */}
+      {!nostrProfile && (
+        <Button
+          label="Sign In"
+          onClick={() => {
+            document.dispatchEvent(new Event("promptLogin"))
+          }}
+        />
+      )}
       <Button
         onClick={() => setGatedPodModal(!gatedPodModal)}
         label="Upload Podcast"
       />
+
       {/* <Button
         onClick={() => setGenericNoteModal(!genericNoteModal)}
         label="Post Something"

@@ -74,6 +74,7 @@ export function Navbar() {
           {renderDesktopNavLink("/feed", "Nostr Universe", faGlobe)}
           {renderDesktopNavLink("/support/", "Support", faQuestionCircle)}
           {renderDesktopNavLink("/feedback/", "Earn Sats", faBolt)}
+          {renderDesktopNavLink("/about/", "About Us", faQuestionCircle)}
 
           {/* {renderDesktopNavLink(
             "/upload",
@@ -118,6 +119,7 @@ export function Navbar() {
           </p>
         </div>
         {/* <div className={`static left-5 h-10 ${publicKey ? "mt-3" : ""}`}> */}
+
         <ActionButtonsPost />
 
         <ProfileBuble />
