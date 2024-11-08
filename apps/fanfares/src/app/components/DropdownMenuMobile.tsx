@@ -90,6 +90,14 @@ export default function DropdownMenuMobile() {
             <FontAwesomeIcon icon={faQuestionCircle} className="w-4" /> Support
           </DropdownMenu.Item>
 
+          <DropdownMenu.Item
+            onClick={() => {
+              router.push("/about")
+            }}
+            className="group text-[13px] leading-none text-grey-100 rounded-[3px] flex gap-2 items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1">
+            <FontAwesomeIcon icon={faQuestionCircle} className="w-4" /> About Us
+          </DropdownMenu.Item>
+       
           <DropdownMenu.Separator className="h-[1px] bg-white m-[5px]" />
 
           {accountProfile ? (
